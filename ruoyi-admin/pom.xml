@@ -61,6 +61,13 @@
             <artifactId>ruoyi-generator</artifactId>
         </dependency>
 
+        <!-- 自定义的接口-->
+        <dependency>
+            <groupId>com.ruoyi</groupId>
+            <artifactId>ruoyi-interface</artifactId>
+            <version>3.8.6</version>
+        </dependency>
+
     </dependencies>
 
     <build>
