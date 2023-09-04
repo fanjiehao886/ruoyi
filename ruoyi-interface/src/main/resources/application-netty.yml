@@ -1,0 +1,7 @@
+netty-init:
+# 服务端端口
+  server-port: 8185
+  # 解码器数据最大长度 防止恶意数据
+  de-code-size: 2048
+  # 解包分隔符号
+  separator: $
