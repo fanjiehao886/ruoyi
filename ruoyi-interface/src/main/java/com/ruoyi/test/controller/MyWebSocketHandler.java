@@ -18,6 +18,7 @@ import io.netty.handler.codec.http.websocketx.PongWebSocketFrame;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import io.netty.handler.codec.http.websocketx.WebSocketFrame;
 import io.netty.handler.codec.http.websocketx.WebSocketServerHandshaker;
+import io.netty.handler.codec.http.websocketx.WebSocketServerHandshakerFactory;
 import io.netty.util.CharsetUtil;
 
 public class MyWebSocketHandler extends SimpleChannelInboundHandler<Object> {
@@ -48,6 +49,16 @@ public class MyWebSocketHandler extends SimpleChannelInboundHandler<Object> {
             sendHttpResponse(context, fullHttpRequest, new DefaultFullHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.BAD_REQUEST));
             return;
         }
+        WebSocketServerHandshakerFactory webSocketServerHandshakerFactory = new WebSocketServerHandshakerFactory(WEB_SOCKET_URL, null, false);
+        webSocketServerHandshaker = webSocketServerHandshakerFactory.newHandshaker(fullHttpRequest);
+
+        if(webSocketServerHandshaker == null) {
+            WebSocketServerHandshakerFactory.sendUnsupportedVersionResponse(context.channel());
+        }else {
+            webSocketServerHandshaker.handshake(context.channel(), fullHttpRequest);
+        }
+        
+
     }
 
     private void sendHttpResponse(ChannelHandlerContext context, FullHttpRequest fullHttpRequest, DefaultFullHttpResponse defaultFullHttpResponse) {
