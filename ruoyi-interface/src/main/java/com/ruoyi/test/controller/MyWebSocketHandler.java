@@ -44,21 +44,21 @@ public class MyWebSocketHandler extends SimpleChannelInboundHandler<Object> {
     }
 
     private void handHttpRequest(ChannelHandlerContext context, FullHttpRequest fullHttpRequest) {
-        if(!fullHttpRequest.getDecoderResult().isSuccess() || !("websocket".equals(fullHttpRequest.headers().get("Upgrade")))) {
+        if(!fullHttpRequest.decoderResult().isSuccess() || !("websocket".equals(fullHttpRequest.headers().get("Upgrade")))) {
             sendHttpResponse(context, fullHttpRequest, new DefaultFullHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.BAD_REQUEST));
             return;
         }
     }
 
     private void sendHttpResponse(ChannelHandlerContext context, FullHttpRequest fullHttpRequest, DefaultFullHttpResponse defaultFullHttpResponse) {
-        if (defaultFullHttpResponse.getStatus().code() != 200) {
-            ByteBuf buf = Unpooled.copiedBuffer(defaultFullHttpResponse.getStatus().toString(), CharsetUtil.UTF_8);
+        if (defaultFullHttpResponse.status().code() != 200) {
+            ByteBuf buf = Unpooled.copiedBuffer(defaultFullHttpResponse.status().toString(), CharsetUtil.UTF_8);
             defaultFullHttpResponse.content().writeBytes(buf);
             buf.release();
         }
 
         ChannelFuture future = context.channel().writeAndFlush(defaultFullHttpResponse);
-        if(defaultFullHttpResponse.getStatus().code() != 200) {
+        if(defaultFullHttpResponse.status().code() != 200) {
             future.addListener(ChannelFutureListener.CLOSE);
         }
     }
