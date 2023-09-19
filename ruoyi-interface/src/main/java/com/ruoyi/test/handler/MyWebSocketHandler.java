@@ -1,4 +1,4 @@
-package com.ruoyi.test.controller;
+package com.ruoyi.test.handler;
 
 import com.ruoyi.test.config.NettyConfig;
 
