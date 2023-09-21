@@ -6,6 +6,7 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import com.ruoyi.test.entity.UserInfo;
+import com.ruoyi.test.proto.ChatProto;
 import com.ruoyi.test.util.BlankUtil;
 import com.ruoyi.test.util.NettyUtil;
 
@@ -67,10 +68,10 @@ public class UserInfoManager {
                 for(Channel ch : keySet) {
                     UserInfo userInfo = userInfos.get(ch);
                     if(userInfo == null) continue;
-                    ch.writeAndFlush(new TextWebSocketFrame());
+                    ch.writeAndFlush(new TextWebSocketFrame(ChatProto.buildMessProto(uid, nick, message)));
                 }
             } finally {
-                
+
             }
         }
     }
